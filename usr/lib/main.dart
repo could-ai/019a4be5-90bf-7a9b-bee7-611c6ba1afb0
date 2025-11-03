@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('fr'), Locale('ar')],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en'),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -16,6 +26,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       home: const HomePage(),
     );
   }
@@ -33,8 +46,31 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Grandline Delivery'),
+        title: Text('appTitle'.tr()),
         backgroundColor: Theme.of(context).colorScheme.primary,
+        actions: [
+          PopupMenuButton<Locale>(
+            onSelected: (Locale locale) {
+              context.setLocale(locale);
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                  value: const Locale('en'),
+                  child: Text('English'),
+                ),
+                PopupMenuItem(
+                  value: const Locale('fr'),
+                  child: Text('Français'),
+                ),
+                PopupMenuItem(
+                  value: const Locale('ar'),
+                  child: Text('العربية'),
+                ),
+              ];
+            },
+          ),
+        ],
       ),
       body: const Center(
         child: Column(
@@ -47,14 +83,14 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(height: 20),
             Text(
-              'Welcome to Grandline Delivery',
+              'welcome',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
+            ).tr(),
             SizedBox(height: 10),
             Text(
-              'Your trusted delivery partner',
+              'subtitle',
               style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
+            ).tr(),
           ],
         ),
       ),
