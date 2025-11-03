@@ -72,8 +72,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: const Center(
-        child: Column(
+      body: Center(
+        child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Icon(
