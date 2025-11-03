@@ -1,6 +1,6 @@
-# couldai_user_app
+# Grandline Delivery
 
-A new Flutter project.
+A Flutter delivery application.
 
 ## Getting Started
 
